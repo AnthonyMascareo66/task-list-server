@@ -13,4 +13,19 @@ listViewRouter.get('/incomplete-tasks', (req, res) => {
   res.send('Lista de tareas incompletas');
 });
 
+// Middleware para gestionar parámetros en list-view-router
+const validateParams = (req, res, next) => {
+  const { id } = req.params;
+
+  // Puedes agregar validaciones adicionales según tus requisitos
+  if (!id || isNaN(id) || id <= 0) {
+    return res.status(400).json({ error: 'Parámetros no válidos' });
+  }
+
+  next();
+};
+
+// Agrega el middleware de validación de parámetros al router
+listViewRouter.use(validateParams);
+
 module.exports = listViewRouter;
